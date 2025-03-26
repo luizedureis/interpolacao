@@ -1,9 +1,4 @@
-from typing import Any
-
 from PIL import Image
-import numpy as np
-from numpy import ndarray, dtype
-
 
 class Load_Image:
     def __init__(self):
