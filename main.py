@@ -1,12 +1,3 @@
-from argparse import ZERO_OR_MORE
-
-import numpy as np
-import matplotlib.pyplot as plt
-from skimage import img_as_float
-from skimage.restoration import wiener
-from internal.use_case.load_img import Load_Image
-from internal.use_case.resize import Zoom
-from PIL import Image
 # # Carregar a imagem
 # image_path = 'diego.png'
 # print("lendo mensagem")
