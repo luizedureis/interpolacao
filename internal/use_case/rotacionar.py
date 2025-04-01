@@ -35,10 +35,12 @@ def rotacionar_imagem(rgb_lista, largura, altura, angulo):
 
 # Classe para carregar e rotacionar a imagem
 class Rotacao_Imagem:
-    def __init__(self, imagem_rgb, angulo):
+    def __init__(self):
+        pass
+
+    def rotacionar(self,imagem_rgb, angulo):
         self.imagem_rgb = imagem_rgb
         self.angulo = angulo
         self.altura, self.largura, _ = imagem_rgb.shape
 
-    def rotacionar(self):
         return rotacionar_imagem(self.imagem_rgb, self.largura, self.altura, self.angulo)
