@@ -42,11 +42,21 @@ class MainController:
         self.img = False
 
     def carregarImg(self, img_path:str):
+        '''
+        :param img_path: String
+        :return: Retorna imagem carregada para a classe principal
+        '''
         self.img = self.__loadImage.run(img_path)
 
     @verificar_print_flag
     @verificar_imagem_carregada
-    def zoomImg(self,zoom_factor:int):
+    def zoomImg(self,zoom_factor:int,printImg:bool=False):
+        '''
+        Função utilizada para dar zoom em imagens
+        :param zoom_factor:int
+        :param printImg: bool = False
+        :return: retorna a imagem para classe principal
+        '''
         self.img = self.__zoomImg.run(self.img,zoom_factor)
 
     @verificar_imagem_carregada
@@ -56,9 +66,18 @@ class MainController:
     @verificar_print_flag
     @verificar_imagem_carregada
     def rotacionarImg(self,angulo:int,printImg:bool=False):
+        '''
+        :param angulo:int
+        :param printImg: Boolean = False
+        :return: retorna a imagem para classe principal
+        '''
         self.img = self.__rotacionar.rotacionar(self.img,angulo)
 
     @verificar_print_flag
     @verificar_imagem_carregada
     def deblurImg(self,printImg:bool=False):
+        '''
+        :param printImg: Boolean = False
+        :return: retorna a imagem para classe principal
+        '''
         self.img = self.__deblurImg.run(self.img)
