@@ -1,6 +1,7 @@
 from functools import wraps
 
 from internal.use_case.Zoom import Zoom
+from internal.use_case.deblur import Deblur
 from internal.use_case.load_img import Load_Image
 from internal.use_case.rotacionar import Rotacao_Imagem
 from internal.use_case.show_img import Show_Image
@@ -37,10 +38,12 @@ class MainController:
         self.__rotacionar:Rotacao_Imagem = Rotacao_Imagem()
         self.__showImage:Show_Image = Show_Image()
         self.__zoomImg: Zoom = Zoom()
+        self.__deblurImg: Deblur = Deblur()
         self.img = False
 
     def carregarImg(self, img_path:str):
         self.img = self.__loadImage.run(img_path)
+
     @verificar_print_flag
     @verificar_imagem_carregada
     def zoomImg(self,zoom_factor:int):
@@ -54,3 +57,8 @@ class MainController:
     @verificar_imagem_carregada
     def rotacionarImg(self,angulo:int,printImg:bool=False):
         self.img = self.__rotacionar.rotacionar(self.img,angulo)
+
+    @verificar_print_flag
+    @verificar_imagem_carregada
+    def deblurImg(self,printImg:bool=False):
+        self.img = self.__deblurImg.run(self.img)

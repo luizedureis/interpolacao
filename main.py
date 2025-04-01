@@ -4,9 +4,12 @@ ctrl = MainController()
 image_path = 'diego.png'
 
 ctrl.carregarImg(image_path)
+ctrl.deblurImg(printImg=True)
+#
+ctrl.rotacionarImg(90,printImg=True)
+#
+# ctrl.zoomImg(2)
 
-ctrl.rotacionarImg(90)
 
-ctrl.zoomImg(2)
 
 
