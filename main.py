@@ -7,7 +7,6 @@ image_path = 'diego.png'
 ctrl.carregarImg(image_path)
 
 
-ctrl.rotacionarImg(90,printImg=True)
-ctrl.zoomImg(4,350,430,printImg=True)
-ctrl.rotacionarImg(90,printImg=True)
-ctrl.zoomImg(1,350,430,printImg=True)
+ctrl.zoomImg(2,printImg=True)
+ctrl.zoomImg(1,printImg=True)
+ctrl.zoomImg(0.67,printImg=True)

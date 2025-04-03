@@ -51,19 +51,24 @@ class MainController:
 
     @verificar_print_flag
     @verificar_imagem_carregada
-    def zoomImg(self,zoom_factor:int,offset_x,offset_y,printImg:bool=False):
+    def zoomImg(self,zoom_factor:float,offset_x=0,offset_y=0,printImg:bool=False):
         '''
         Função utilizada para dar zoom em imagens
-        :param zoom_factor:int
+        :param zoom_factor:Float
         :param printImg: bool = False
         :return: retorna a imagem para classe principal
         '''
-        self.img.zoom_factor = zoom_factor
+
+        if self.img.zoom_factor>3:
+            print("Limite de zoom atingido")
+        if zoom_factor>=1:
+            self.img.zoom_factor += zoom_factor
+            return
+        self.img.zoom_factor *= zoom_factor
 
     def printImg(self):
         print(self.img.zoom_factor)
         if self.img.zoom_factor!=0:
-            print('aplicar temp')
             temp = self.img
             img = self.__zoomImg.run(temp.image, temp.zoom_factor)
             self.__showImage.run(img)
