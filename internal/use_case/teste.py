@@ -1,88 +1,29 @@
-import numpy as np
-from PIL import Image
-from matplotlib import pyplot as plt
+import asyncio
 
 
-def unsharp_mask_manual(image, amount=1.5):
-    height, width, _ = image.shape
-    blurred = np.zeros_like(image, dtype=np.float32)
+async def worker(output_queue):
+    while True:
+        user_input = input("Digite algo (ou 'exit' para sair): ")  # Entrada do usuário
 
-    # Aplicar um filtro de desfoque (média simples)
-    kernel_size = 3
-    pad = kernel_size // 2
-    for i in range(pad, height - pad):
-        for j in range(pad, width - pad):
-            blurred[i, j] = np.mean(image[i - pad:i + pad + 1, j - pad:j + pad + 1], axis=(0, 1))
+        await output_queue.put(user_input)  # Envia o dado para a main
 
-    # Aplicar máscara de nitidez
-    sharpened = image + amount * (image - blurred)
-    sharpened = np.clip(sharpened, 0, 255).astype(np.uint8)
-    return sharpened
+        if user_input.lower() == "exit":
+            break  # Sai do loop
 
 
-def laplacian_sharpen_manual(image):
-    height, width, _ = image.shape
-    sharpened = np.zeros_like(image, dtype=np.float32)
+async def main():
+    queue = asyncio.Queue()
 
-    # Filtro Laplaciano
-    kernel = np.array([[0, -1, 0],
-                       [-1, 4, -1],
-                       [0, -1, 0]])
-    pad = 1
+    worker_task = asyncio.create_task(worker(queue))  # Inicia o worker
 
-    for i in range(pad, height - pad):
-        for j in range(pad, width - pad):
-            region = image[i - pad:i + pad + 1, j - pad:j + pad + 1]
-            sharpened[i, j] = np.sum(region * kernel[..., np.newaxis], axis=(0, 1))
+    while True:
+        message = await queue.get()  # Aguarda uma mensagem do worker
+        print(f"📩 Main recebeu: {message}")
 
-    sharpened = np.clip(image - sharpened, 0, 255).astype(np.uint8)
-    return sharpened
+        if message.lower() == "exit":
+            break  # Encerra o programa
+
+    await worker_task  # Aguarda o término do worker
 
 
-def wiener_deconvolution_manual(image, kernel_size=3, noise_power=0.01):
-    height, width, _ = image.shape
-    restored = np.zeros_like(image, dtype=np.float32)
-
-    # Criar kernel de desfoque (média)
-    kernel = np.ones((kernel_size, kernel_size)) / (kernel_size ** 2)
-    pad = kernel_size // 2
-
-    # Aplicar deconvolução simplificada
-    for i in range(pad, height - pad):
-        for j in range(pad, width - pad):
-            region = image[i - pad:i + pad + 1, j - pad:j + pad + 1]
-            conv = np.sum(region * kernel[..., np.newaxis], axis=(0, 1))
-            restored[i, j] = image[i, j] / (conv + noise_power)
-
-    restored = np.clip(restored * 255, 0, 255).astype(np.uint8)
-    return restored
-
-
-def load_image(image_path):
-    img = Image.open(image_path)
-    img = img.convert('RGB')  # Garantir que a imagem esteja no formato RGB
-    return np.array(img)
-
-
-# Carregar imagem
-image_path = 'diego.png'  # Substitua pelo caminho da sua imagem
-image = load_image(image_path)
-
-# Aplicar filtros
-unsharp_result = unsharp_mask_manual(image)
-laplacian_result = laplacian_sharpen_manual(image)
-wiener_result = wiener_deconvolution_manual(image)
-
-# Mostrar imagens
-fig, ax = plt.subplots(1, 4, figsize=(15, 5))
-ax[0].imshow(image)
-ax[0].set_title('Original')
-ax[1].imshow(unsharp_result)
-ax[1].set_title('Unsharp Mask')
-ax[2].imshow(laplacian_result)
-ax[2].set_title('Laplacian')
-ax[3].imshow(wiener_result)
-ax[3].set_title('Wiener Deconvolution')
-for a in ax:
-    a.axis('off')
-plt.show()
+asyncio.run(main())
