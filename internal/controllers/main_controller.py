@@ -67,7 +67,6 @@ class MainController:
         self.img.zoom_factor *= zoom_factor
 
     def printImg(self):
-        print(self.img.zoom_factor)
         if self.img.zoom_factor!=0:
             temp = self.img
             img = self.__zoomImg.run(temp.image, temp.zoom_factor)
@@ -84,7 +83,6 @@ class MainController:
         :return: retorna a imagem para classe principal
         '''
 
-        print("rotacionar")
         self.img.image = self.__rotacionar.rotacionar(self.img.image,angulo)
 
 
@@ -96,4 +94,4 @@ class MainController:
         :param amount: Float
         :return: retorna a imagem para classe principal
         '''
-        self.img = self.__deblurImg.run(self.img,amount)
+        self.img.image = self.__deblurImg.run(self.img,amount)

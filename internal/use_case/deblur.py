@@ -23,6 +23,6 @@ class Deblur:
         return sharpened
 
     def run(self, image,amount):
-        return self.unsharp_mask_manual(image,amount)
+        return self.unsharp_mask_manual(image.image,amount)
 
 

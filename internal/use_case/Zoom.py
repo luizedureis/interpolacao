@@ -8,7 +8,6 @@ class Zoom:
 
     # Função para dar zoom em uma área central da imagem
     def run(self, img_np_array, zoom_factor, offset_x=0, offset_y=0):
-        print(f"sou o zoom e recebi {zoom_factor}")
         # Abrir a imagem
         img = Image.fromarray(img_np_array)
 
