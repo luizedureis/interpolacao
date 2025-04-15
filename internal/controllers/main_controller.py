@@ -61,6 +61,7 @@ class MainController:
 
         if self.img.zoom_factor>3:
             print("Limite de zoom atingido")
+            return
         if zoom_factor>=1:
             self.img.zoom_factor += zoom_factor
             return
