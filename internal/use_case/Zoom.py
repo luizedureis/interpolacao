@@ -1,6 +1,8 @@
 import numpy as np
 from PIL import Image
 
+from internal.use_case.resize import Resize
+
 
 class Zoom:
     def __init__(self):
@@ -32,6 +34,6 @@ class Zoom:
         cropped_img = img.crop((left, top, right, bottom))
 
         # Redimensionar ao tamanho original
-        resized_img = cropped_img.resize((width, height), Image.BILINEAR)
+        resized_img = Resize(cropped_img, width, height).redimensionar()
 
         return np.array(resized_img)

@@ -47,7 +47,12 @@ class MainController:
         :param img_path: String
         :return: Retorna imagem carregada para a classe principal
         '''
-        self.img = self.__loadImage.run(img_path)
+        try:
+            self.img = self.__loadImage.run(img_path)
+            return True
+        except Exception as e:
+            print(f"Erro ao carregar a imagem -> {e}")
+            return False
 
     @verificar_print_flag
     @verificar_imagem_carregada

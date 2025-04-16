@@ -11,8 +11,8 @@ class Load_Image:
     def run(self, image_path):
         try:
             img = Image.open(image_path)
-            img = img.convert('RGB')  # Garantir que a imagem esteja no formato RGB
-            return ImageModel(np.array(img))  # Converter para um array NumPy
+            img_rgb = img.convert('RGB')  # Garantir que a imagem esteja no formato RGB
+            return ImageModel(np.array(img_rgb),*img.size)  # Converter para um array NumPy
         except Exception as e:
             print(f"Erro ao carregar a imagem: {e}")
             return None

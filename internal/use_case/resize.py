@@ -24,14 +24,11 @@ def interpolacao_bilinear(x, y, imagem):
     return tuple(int(inter_bili(A[i], B[i], C[i], D[i], x, x1, x2, y, y1, y2)) for i in range(3))
 
 
-class Zoom:
-    def __init__(self, imagem, fator_zoom):
-        largura, altura = imagem.size
-        self.fator_zoom = fator_zoom
-        self.largura = largura
-        self.altura = altura
-        self.nova_largura = int(largura * fator_zoom)
-        self.nova_altura = int(altura * fator_zoom)
+class Resize:
+    def __init__(self, imagem, width, height):
+        self.largura, self.altura = imagem.size
+        self.nova_largura = width
+        self.nova_altura = height
 
         # Inicializa a imagem redimensionada
         self.imagem_redimensionada = Image.new("RGB", (self.nova_largura, self.nova_altura))

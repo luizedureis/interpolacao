@@ -1,18 +1,19 @@
 from internal.controllers.main_controller import MainController
 
+
 def main():
     ctrl = MainController()
     print("Olá, vamos trabalhar com imagens!")
-    
+
     while True:
         image_path = input("Digite o nome do arquivo que vamos trabalhar (ou 'sair' para encerrar): ")
         if image_path.lower() == 'sair':
             print("Encerrando o programa.")
             break
 
-        ctrl.carregarImg(image_path)
-        print("Imagem carregada com sucesso.\n")
-        
+        if not ctrl.carregarImg(image_path):
+            break
+
         while True:
             operacao = input(
                 "Escolha a operação: zoom, rotacionar, deblur, redirecionar (ainda não implementado) "
