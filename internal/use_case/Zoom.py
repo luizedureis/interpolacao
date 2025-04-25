@@ -1,5 +1,4 @@
 import numpy as np
-from PIL import Image
 
 from internal.use_case.resize import Resize
 
@@ -10,11 +9,8 @@ class Zoom:
 
     # Função para dar zoom em uma área central da imagem
     def run(self, img_np_array, zoom_factor, offset_x=0, offset_y=0):
-        # Abrir a imagem
-        img = Image.fromarray(img_np_array)
-
         # Dimensões da imagem
-        width, height = img.size
+        width, height, _ = img_np_array.shape
 
         # Determinar a nova largura e altura com base no fator de zoom
         zoom_width = int(width / zoom_factor)
@@ -31,7 +27,7 @@ class Zoom:
         bottom = min(center_y + zoom_height // 2, height)
 
         # Cortar a imagem para obter a região do zoom
-        cropped_img = img.crop((left, top, right, bottom))
+        cropped_img = img_np_array[top:bottom, left:right]
 
         # Redimensionar ao tamanho original
         resized_img = Resize(cropped_img, width, height).redimensionar()
