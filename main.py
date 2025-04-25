@@ -42,7 +42,9 @@ def main():
                     print("Valor inválido para deblur. Tente novamente.")
 
             elif operacao == "redirecionar":
-                print("A opção 'redirecionar' ainda não foi implementada.")
+                des_x = int(input("Informe a quantidade de pixels na horizontal: "))
+                des_y = int(input("Informe a quantidade de pixels na vertical: "))
+                ctrl.transladarImg(des_x, des_y, printImg=True)
 
             elif operacao == "voltar":
                 print("Retornando para o menu principal de carregamento de imagens.\n")

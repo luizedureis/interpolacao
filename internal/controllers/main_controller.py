@@ -6,6 +6,7 @@ from internal.use_case.deblur import Deblur
 from internal.use_case.load_img import Load_Image
 from internal.use_case.rotacionar import Rotacao_Imagem
 from internal.use_case.show_img import Show_Image
+from internal.use_case.translade import Translacao
 
 
 def verificar_imagem_carregada(func):
@@ -40,6 +41,7 @@ class MainController:
         self.__showImage:Show_Image = Show_Image()
         self.__zoomImg: Zoom = Zoom()
         self.__deblurImg: Deblur = Deblur()
+        self.__transladarImg: Translacao = Translacao()
         self.img:ImageModel = False
 
     def carregarImg(self, img_path:str):
@@ -101,3 +103,14 @@ class MainController:
         :return: retorna a imagem para classe principal
         '''
         self.img.image = self.__deblurImg.run(self.img,amount)
+
+    @verificar_print_flag
+    @verificar_imagem_carregada
+    def transladarImg(self, desloc_x: int, desloc_y: int, printImg: bool = False):
+        '''
+        :param desloc_x: Deslocamento no eixo X
+        :param desloc_y: Deslocamento no eixo Y
+        :param printImg: Boolean = False
+        :return: retorna a imagem para classe principal
+        '''
+        self.img.image = self.__transladarImg.translada_imagem(self.img.image, desloc_x, desloc_y)

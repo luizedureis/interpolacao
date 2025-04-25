@@ -1,7 +1,5 @@
 import numpy as np
 import math
-from PIL import Image
-
 
 # Função para aplicar a rotação com interpolação bilinear
 def rotacionar_imagem(rgb_lista, largura, altura, angulo):

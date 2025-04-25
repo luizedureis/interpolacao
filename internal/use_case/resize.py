@@ -1,19 +1,18 @@
-from PIL import Image
-
+import numpy as np
 
 # Função para interpolação bilinear
 def interpolacao_bilinear(x, y, imagem):
-    largura, altura = imagem.size
+    altura, largura, _ = imagem.shape
     x1 = int(x)
     y1 = int(y)
     x2 = min(x1 + 1, largura - 1)
     y2 = min(y1 + 1, altura - 1)
 
     # Pegando os valores dos 4 pixels próximos
-    A = imagem.getpixel((x1, y1))
-    B = imagem.getpixel((x2, y1))
-    C = imagem.getpixel((x1, y2))
-    D = imagem.getpixel((x2, y2))
+    A = imagem[y1, x1]
+    B = imagem[y1, x2]
+    C = imagem[y2, x1]
+    D = imagem[y2, x2]
 
     def inter_bili(A, B, C, D, x, x1, x2, y, y1, y2):
         r1 = (x2 - x) * A + (x - x1) * B
@@ -25,13 +24,13 @@ def interpolacao_bilinear(x, y, imagem):
 
 
 class Resize:
-    def __init__(self, imagem, width, height):
-        self.largura, self.altura = imagem.size
-        self.nova_largura = width
-        self.nova_altura = height
+    def __init__(self, imagem, largura, altura):
+        self.largura, self.altura = imagem.shape[1], imagem.shape[0]
+        self.nova_largura = largura
+        self.nova_altura = altura
 
-        # Inicializa a imagem redimensionada
-        self.imagem_redimensionada = Image.new("RGB", (self.nova_largura, self.nova_altura))
+        # Inicializa a imagem redimensionada (em formato de array NumPy)
+        self.imagem_redimensionada = np.zeros((self.nova_altura, self.nova_largura, 3), dtype=np.uint8)
         self.imagem = imagem
 
     def cal_coordenadas(self, i, j):
@@ -41,7 +40,7 @@ class Resize:
         cor = interpolacao_bilinear(x, y, self.imagem)
 
         # Atribui a cor ao pixel correspondente
-        self.imagem_redimensionada.putpixel((i, j), cor)
+        self.imagem_redimensionada[j, i] = cor
 
     def redimensionar(self):
         # Redimensiona a imagem calculando as coordenadas para cada pixel
